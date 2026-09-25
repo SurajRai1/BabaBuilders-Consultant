@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bababuilders.com'),
   title: 'BABA Builders & Consultant | Sunsari, Nepal',
   description:
     'Thoughtful design, trusted guidance and construction with purpose. BABA Builders & Consultant helps shape your vision from naksha to completion.',
