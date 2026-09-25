@@ -35,33 +35,7 @@ export default function Approach() {
       const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
 
-      // Forge-style section slide-up (on top of previous section)
-      gsap.fromTo(
-        sectionRef.current,
-        { yPercent: 8 },
-        {
-          yPercent: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'top 20%',
-            scrub: true,
-          },
-        }
-      );
-
-      // Curtain Lift Effect: As user scrolls down past Approach, it lifts UPWARDS like a curtain revealing Page 3
-      gsap.to(sectionRef.current, {
-        yPercent: -28,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'bottom bottom',
-          end: 'bottom 10%',
-          scrub: true,
-        },
-      });
+      // Curtain lift and reveal transition handled synchronously by Services stage timeline
 
       // Heading: moves up slowly as you scroll through the section (natural scroll parallax)
       if (headingRef.current) {

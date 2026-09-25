@@ -998,10 +998,9 @@ em, .italic { font-style: italic; }
 /* ── Approach Section ─────────────────────────────────────── */
 .approach-section {
   position: relative;
-  z-index: 5;
+  z-index: 10;
   background: var(--deep-green);
-  overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
   will-change: transform;
 }
 .approach-heading-row {
@@ -1077,10 +1076,15 @@ em, .italic { font-style: italic; }
 /* ── Services — Forge Automotive Style (Earthy Color Palette) ── */
 .services-forge-section {
   position: relative;
-  z-index: 4;
+  z-index: 5;
   background: var(--cream);
   color: var(--deep-green);
   overflow: visible;
+}
+@media (min-width: 1025px) {
+  .services-forge-section {
+    margin-top: -100vh;
+  }
 }
 
 .services-forge-stage {

@@ -100,20 +100,36 @@ export default function Services() {
           // Main scrubbed timeline synchronized with Lenis ticker
           const tl = gsap.timeline();
 
-          // Bottom progress bar scaling from 0 to 1
+          const approachEl = document.querySelector<HTMLElement>('.approach-section');
+
+          // Curtain Lift: As user enters Services, Approach lifts completely up off-screen
+          if (approachEl) {
+            tl.fromTo(
+              approachEl,
+              { yPercent: 0 },
+              {
+                yPercent: -105,
+                ease: 'power1.inOut',
+                duration: 1.0,
+              },
+              0
+            );
+          }
+
+          // Bottom progress bar scaling from 0 to 1 across the whole experience
           if (progressBarRef.current) {
             tl.to(
               progressBarRef.current,
               {
                 scaleX: 1,
                 ease: 'none',
-                duration: 3,
+                duration: 3.8,
               },
               0
             );
           }
 
-          // ── Transition 1: Step 01 -> Step 02 ──
+          // ── Transition 1: Step 01 -> Step 02 (happens AFTER curtain has fully cleared at 1.0) ──
           // Step 1 text glides up & fades out
           tl.to(
             textRefs.current[0],
@@ -121,7 +137,7 @@ export default function Services() {
               y: -40,
               opacity: 0,
               ease: 'power1.inOut',
-              duration: 0.38,
+              duration: 0.45,
               onComplete: () => {
                 if (textRefs.current[0]) textRefs.current[0]!.style.pointerEvents = 'none';
               },
@@ -129,7 +145,7 @@ export default function Services() {
                 if (textRefs.current[0]) textRefs.current[0]!.style.pointerEvents = 'auto';
               },
             },
-            0.75
+            1.4
           );
 
           // Step 2 text glides up from below & fades in
@@ -140,7 +156,7 @@ export default function Services() {
               y: 0,
               opacity: 1,
               ease: 'power1.inOut',
-              duration: 0.38,
+              duration: 0.45,
               onStart: () => {
                 if (textRefs.current[1]) textRefs.current[1]!.style.pointerEvents = 'auto';
               },
@@ -148,29 +164,29 @@ export default function Services() {
                 if (textRefs.current[1]) textRefs.current[1]!.style.pointerEvents = 'none';
               },
             },
-            0.95
+            1.6
           );
 
           // Image 0 -> Image 1 crossfade
           tl.to(
             imgRefs.current[0],
-            { opacity: 0, scale: 0.96, ease: 'power1.inOut', duration: 0.45 },
-            0.75
+            { opacity: 0, scale: 0.96, ease: 'power1.inOut', duration: 0.5 },
+            1.4
           );
           tl.fromTo(
             imgRefs.current[1],
             { opacity: 0, scale: 1.04 },
-            { opacity: 1, scale: 1, ease: 'power1.inOut', duration: 0.45 },
-            0.85
+            { opacity: 1, scale: 1, ease: 'power1.inOut', duration: 0.5 },
+            1.5
           );
 
           // Background ambient blur crossfade
-          tl.to(bgRefs.current[0], { opacity: 0, ease: 'power1.inOut', duration: 0.45 }, 0.75);
+          tl.to(bgRefs.current[0], { opacity: 0, ease: 'power1.inOut', duration: 0.5 }, 1.4);
           tl.fromTo(
             bgRefs.current[1],
             { opacity: 0 },
-            { opacity: 0.22, ease: 'power1.inOut', duration: 0.45 },
-            0.85
+            { opacity: 0.22, ease: 'power1.inOut', duration: 0.5 },
+            1.5
           );
 
           // ── Transition 2: Step 02 -> Step 03 ──
@@ -181,7 +197,7 @@ export default function Services() {
               y: -40,
               opacity: 0,
               ease: 'power1.inOut',
-              duration: 0.38,
+              duration: 0.45,
               onComplete: () => {
                 if (textRefs.current[1]) textRefs.current[1]!.style.pointerEvents = 'none';
               },
@@ -189,7 +205,7 @@ export default function Services() {
                 if (textRefs.current[1]) textRefs.current[1]!.style.pointerEvents = 'auto';
               },
             },
-            1.85
+            2.6
           );
 
           // Step 3 text glides up from below & fades in
@@ -200,7 +216,7 @@ export default function Services() {
               y: 0,
               opacity: 1,
               ease: 'power1.inOut',
-              duration: 0.38,
+              duration: 0.45,
               onStart: () => {
                 if (textRefs.current[2]) textRefs.current[2]!.style.pointerEvents = 'auto';
               },
@@ -208,36 +224,36 @@ export default function Services() {
                 if (textRefs.current[2]) textRefs.current[2]!.style.pointerEvents = 'none';
               },
             },
-            2.05
+            2.8
           );
 
           // Image 1 -> Image 2 crossfade
           tl.to(
             imgRefs.current[1],
-            { opacity: 0, scale: 0.96, ease: 'power1.inOut', duration: 0.45 },
-            1.85
+            { opacity: 0, scale: 0.96, ease: 'power1.inOut', duration: 0.5 },
+            2.6
           );
           tl.fromTo(
             imgRefs.current[2],
             { opacity: 0, scale: 1.04 },
-            { opacity: 1, scale: 1, ease: 'power1.inOut', duration: 0.45 },
-            1.95
+            { opacity: 1, scale: 1, ease: 'power1.inOut', duration: 0.5 },
+            2.7
           );
 
           // Background ambient blur crossfade
-          tl.to(bgRefs.current[1], { opacity: 0, ease: 'power1.inOut', duration: 0.45 }, 1.85);
+          tl.to(bgRefs.current[1], { opacity: 0, ease: 'power1.inOut', duration: 0.5 }, 2.6);
           tl.fromTo(
             bgRefs.current[2],
             { opacity: 0 },
-            { opacity: 0.22, ease: 'power1.inOut', duration: 0.45 },
-            1.95
+            { opacity: 0.22, ease: 'power1.inOut', duration: 0.5 },
+            2.7
           );
 
           // GSAP pin on section with scrub
           ScrollTrigger.create({
             trigger: section,
             start: 'top top',
-            end: '+=2400',
+            end: '+=3200',
             pin: true,
             anticipatePin: 1,
             scrub: 1,
