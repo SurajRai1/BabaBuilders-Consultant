@@ -176,18 +176,15 @@ em, .italic { font-style: italic; }
   opacity: 0;
 }
 .preloader-logo-icon {
-  width: 50px; height: 50px;
+  width: 60px; height: 60px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--warm-gold);
-  color: var(--warm-gold);
+  overflow: hidden;
   position: relative;
 }
-.preloader-logo-icon::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px solid rgba(202, 125, 87, 0.3);
+.preloader-mark-svg {
+  width: 100%; height: 100%;
+  color: var(--cream);
 }
 .preloader-logo-text {
   font-family: var(--font-body);
@@ -231,19 +228,7 @@ em, .italic { font-style: italic; }
   background: transparent !important;
   backdrop-filter: none !important;
 }
-.site-header.menu-active .logo-mark {
-  border-color: rgba(43, 53, 48, 0.4);
-  color: var(--deep-green);
-}
-.site-header.menu-active .logo-mark::after {
-  border-color: rgba(43, 53, 48, 0.2);
-}
-.site-header.menu-active .logo-text strong {
-  color: var(--deep-green);
-}
-.site-header.menu-active .logo-text small {
-  color: rgba(43, 53, 48, 0.6);
-}
+
 .header-inner {
   display: flex;
   align-items: center;
@@ -254,18 +239,15 @@ em, .italic { font-style: italic; }
 .logo { display: inline-flex; align-items: center; gap: 12px; }
 .logo-mark {
   display: grid; place-items: center;
-  width: 42px; height: 42px;
-  color: var(--warm-gold);
-  border: 1px solid rgba(202, 125, 87, 0.7);
+  width: 46px; height: 46px;
+  overflow: hidden;
   position: relative;
-  transition: all 0.3s ease;
+  transition: width 0.4s var(--ease-smooth), height 0.4s var(--ease-smooth);
 }
-.logo-mark::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px solid rgba(202, 125, 87, 0.25);
-  transition: all 0.3s ease;
+.logo-mark-svg {
+  width: 100%; height: 100%;
+  color: var(--cream);
+  transition: color 0.3s ease;
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1; }
 .logo-text strong {
@@ -281,6 +263,18 @@ em, .italic { font-style: italic; }
   color: var(--muted);
   text-transform: uppercase;
   transition: color 0.3s ease;
+}
+.site-header.is-scrolled .logo-mark {
+  width: 38px; height: 38px;
+}
+.site-header.menu-active .logo-mark-svg {
+  color: var(--deep-green);
+}
+.site-header.menu-active .logo-text strong {
+  color: var(--deep-green);
+}
+.site-header.menu-active .logo-text small {
+  color: rgba(43, 53, 48, 0.6);
 }
 
 /* Hamburger */

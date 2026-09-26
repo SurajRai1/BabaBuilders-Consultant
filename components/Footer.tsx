@@ -1,6 +1,8 @@
 'use client';
 
-import { Building2 } from 'lucide-react';
+import { BabaLogoMark } from '@/components/BabaLogo';
+
+
 
 function FacebookIcon() {
   return (
@@ -34,7 +36,7 @@ export default function Footer() {
           <div>
             <a href="#top" className="logo">
               <span className="logo-mark">
-                <Building2 size={18} strokeWidth={1.6} />
+                <BabaLogoMark className="logo-mark-svg" />
               </span>
               <span className="logo-text">
                 <strong>BABA</strong>

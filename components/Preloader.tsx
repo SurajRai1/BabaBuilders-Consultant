@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Building2 } from 'lucide-react';
+import { BabaLogoMark } from '@/components/BabaLogo';
+
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const preloaderRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       <div className="preloader-content">
         <div ref={logoRef} className="preloader-logo">
           <div className="preloader-logo-icon">
-            <Building2 size={24} strokeWidth={1.5} />
+            <BabaLogoMark className="preloader-mark-svg" />
           </div>
           <span className="preloader-logo-text">BABA Builders & Consultant</span>
         </div>

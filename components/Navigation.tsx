@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Building2, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { BabaLogoMark } from '@/components/BabaLogo';
 
 const chapters = [
   {
@@ -97,7 +98,7 @@ export default function Navigation() {
         <div className="container header-inner">
           <a href="#top" className="logo" onClick={closeAndNavigate} aria-label="BABA Builders home">
             <span className="logo-mark">
-              <Building2 size={20} strokeWidth={1.6} />
+              <BabaLogoMark className="logo-mark-svg" />
             </span>
             <span className="logo-text">
               <strong>BABA</strong>
