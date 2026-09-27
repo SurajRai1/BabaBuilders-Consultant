@@ -31,9 +31,9 @@ const chapters = [
   },
   {
     num: '05',
-    title: 'Inquire',
-    desc: 'Consult directly with our architects & engineers',
-    href: '#start',
+    title: 'Contact Us',
+    desc: 'Get in touch with our architects & engineers',
+    href: '#contact',
   },
 ];
 
@@ -228,7 +228,7 @@ export default function Navigation() {
 
               {/* Consultation Card CTA */}
               <div className="deso-aside-footer">
-                <a href="#start" className="deso-cta-card" onClick={closeAndNavigate}>
+                <a href="#contact" className="deso-cta-card" onClick={closeAndNavigate}>
                   <div className="deso-cta-text">
                     <span className="deso-cta-small">START YOUR BUILD</span>
                     <span className="deso-cta-big">Schedule Consultation</span>

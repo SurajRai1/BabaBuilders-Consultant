@@ -91,7 +91,7 @@ export default function CTA() {
             guidance through a build you&apos;re managing yourself, we&apos;re
             here to help at every step.
           </p>
-          <a className="btn btn-gold btn-slide" href="mailto:hello@bababuilders.com">
+          <a className="btn btn-gold btn-slide" href="#contact">
             <span className="btn-text">
               <span>
                 Start a conversation <ArrowUpRight size={15} style={{ marginLeft: 8 }} />

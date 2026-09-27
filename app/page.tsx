@@ -13,6 +13,7 @@ import Services from '@/components/Services';
 import Projects from '@/components/Projects';
 import Statement from '@/components/Statement';
 import CTA from '@/components/CTA';
+import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -38,6 +39,7 @@ export default function Home() {
             <Projects />
             <Statement />
             <CTA />
+            <Contact />
           </main>
           <Footer />
         </div>

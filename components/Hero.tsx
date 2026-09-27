@@ -97,7 +97,7 @@ export default function Hero() {
           <span className="hero-eyebrow-line" />
           Sunsari, Nepal
           <span className="hero-eyebrow-dot" />
-          Since 2016
+          Since 2022
         </div>
 
         <div ref={titleRef} className="hero-title">
