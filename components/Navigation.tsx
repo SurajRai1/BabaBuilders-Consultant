@@ -84,6 +84,7 @@ export default function Navigation() {
             <div className="deso-chapters-header">
               <span className="deso-headline-label">{t.header.chapters}</span>
               <div className="deso-headline-line" />
+              <LanguageToggle variant="drawer" className="deso-menu-lang-toggle" />
             </div>
 
             <div className="deso-chapters-list">
