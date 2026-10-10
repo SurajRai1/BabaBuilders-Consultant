@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { LanguageProvider } from '@/context/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
 import Preloader from '@/components/Preloader';
 import CustomCursor from '@/components/CustomCursor';
@@ -24,7 +25,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <LanguageProvider>
       <Preloader onComplete={handlePreloaderComplete} />
       <SmoothScroll>
         <CustomCursor />
@@ -44,6 +45,6 @@ export default function Home() {
           <Footer />
         </div>
       </SmoothScroll>
-    </>
+    </LanguageProvider>
   );
 }

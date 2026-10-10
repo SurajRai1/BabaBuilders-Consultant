@@ -2,12 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import { Check } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const images = {
   interior: 'https://images.pexels.com/photos/7031622/pexels-photo-7031622.jpeg?auto=compress&cs=tinysrgb&w=1200',
 };
 
 export default function Statement() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -116,27 +118,20 @@ export default function Statement() {
       <div className="container statement-grid">
         <div>
           <span className="font-eyebrow" style={{ color: 'rgba(43,53,48,0.5)' }}>
-            05 / Our promise
+            {t.statement.kicker}
           </span>
           <h2 ref={headingRef}>
-            Good buildings are
+            {t.statement.headingLine1}
             <br />
-            <em>felt before they are seen.</em>
+            <em>{t.statement.headingLine2}</em>
           </h2>
-          <p>
-            In the light of a room. In the confidence of a sound decision. In
-            the feeling that everything is exactly where it should be.
-          </p>
+          <p>{t.statement.body}</p>
           <div ref={promiseRef} className="promise-list">
-            <span className="promise-item">
-              <Check size={14} /> Honest guidance
-            </span>
-            <span className="promise-item">
-              <Check size={14} /> Lasting quality
-            </span>
-            <span className="promise-item">
-              <Check size={14} /> Detail-led delivery
-            </span>
+            {t.statement.promises.map((promise, index) => (
+              <span key={`promise-${index}`} className="promise-item">
+                <Check size={14} /> {promise}
+              </span>
+            ))}
           </div>
         </div>
         <div ref={imageRef} className="statement-image">

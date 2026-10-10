@@ -2,32 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-
-const steps = [
-  {
-    number: '01',
-    title: 'Understand',
-    description:
-      'We listen closely to your needs, your site and the life you want to create there.',
-  },
-  {
-    number: '02',
-    title: 'Shape',
-    description:
-      'We turn the possibilities into a considered plan that is practical, personal and ready to move forward.',
-  },
-  {
-    number: '03',
-    title: 'Deliver',
-    description:
-      'We stay close to the work, protecting the vision through every stage of construction.',
-  },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Approach() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const init = async () => {
@@ -35,11 +16,8 @@ export default function Approach() {
       const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
 
-      // Curtain lift and reveal transition handled synchronously by Services stage timeline
-
       // Heading: moves up slowly as you scroll through the section (natural scroll parallax)
       if (headingRef.current) {
-        // First, reveal the heading
         gsap.fromTo(
           headingRef.current,
           { y: 60, opacity: 0 },
@@ -56,7 +34,6 @@ export default function Approach() {
           }
         );
 
-        // Then, subtle parallax as user scrolls through
         gsap.to(headingRef.current, {
           yPercent: -15,
           ease: 'none',
@@ -69,11 +46,10 @@ export default function Approach() {
         });
       }
 
-      // Cards: stagger in, then each card moves at slightly different speed (natural scroll feel)
+      // Cards: stagger in, then each card moves at slightly different speed
       if (cardsRef.current) {
         const cards = cardsRef.current.querySelectorAll('.approach-card');
 
-        // Stagger reveal
         gsap.fromTo(
           cards,
           { opacity: 0, y: 60 },
@@ -91,10 +67,9 @@ export default function Approach() {
           }
         );
 
-        // Each card moves at a slightly different parallax speed as you scroll
         cards.forEach((card, i) => {
           gsap.to(card, {
-            yPercent: -8 - i * 5, // card 1: -8%, card 2: -13%, card 3: -18%
+            yPercent: -8 - i * 5,
             ease: 'none',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -116,30 +91,30 @@ export default function Approach() {
         <div ref={headingRef} className="approach-heading-row">
           <div>
             <span className="font-eyebrow" style={{ color: 'var(--muted)' }}>
-              02 / Our approach
+              {t.approach.kicker}
             </span>
             <h2>
-              Every decision
+              {t.approach.headingLine1}
               <br />
-              <em>has a purpose.</em>
+              <em>{t.approach.headingLine2}</em>
             </h2>
           </div>
           <p>
-            One team. One clear direction.
+            {t.approach.taglineLine1}
             <br />
-            A better way to build.
+            {t.approach.taglineLine2}
           </p>
         </div>
 
         <div ref={cardsRef} className="approach-cards">
-          {steps.map((step) => (
+          {t.approach.steps.map((step) => (
             <div key={step.number} className="approach-card">
               <span className="card-number">{step.number}</span>
               <div className="card-rule" />
               <h3>{step.title}</h3>
               <p>{step.description}</p>
               <a href="#start" className="card-link">
-                Start your project <ArrowUpRight size={14} />
+                {t.approach.startProject} <ArrowUpRight size={14} />
               </a>
             </div>
           ))}

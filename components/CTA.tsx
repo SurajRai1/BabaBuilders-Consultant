@@ -2,12 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight, Heart } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const images = {
-  cta: 'https://images.pexels.com/photos/13752348/pexels-photo-13752348.jpeg?auto=compress&cs=tinysrgb&w=1800',
+  cta: '/images/hero.png',
 };
 
 export default function CTA() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -82,32 +84,25 @@ export default function CTA() {
       <div className="container cta-inner">
         <div ref={contentRef}>
           <h2 ref={headingRef}>
-            Have a vision?
+            {t.cta.headingLine1}
             <br />
-            <em>Let&apos;s give it form.</em>
+            <em>{t.cta.headingLine2}</em>
           </h2>
-          <p>
-            Whether it&apos;s a new home from the ground up, a renovation, or
-            guidance through a build you&apos;re managing yourself, we&apos;re
-            here to help at every step.
-          </p>
+          <p>{t.cta.body}</p>
           <a className="btn btn-gold btn-slide" href="#contact">
             <span className="btn-text">
               <span>
-                Start a conversation <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
+                {t.cta.button} <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
               </span>
               <span>
-                Start a conversation <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
+                {t.cta.button} <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
               </span>
             </span>
           </a>
         </div>
         <div className="cta-note">
           <Heart size={16} />
-          <span>
-            Your project begins with a clear conversation. No commitment, no
-            pressure — just the right first step.
-          </span>
+          <span>{t.cta.note}</span>
         </div>
       </div>
     </section>

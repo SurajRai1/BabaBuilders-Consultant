@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useRef, FormEvent } from 'react';
 import { ArrowUpRight, Send, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/constants';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Contact() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -112,16 +115,15 @@ export default function Contact() {
         <div ref={headingRef} className="contact-header">
           <span className="font-eyebrow contact-eyebrow">
             <span className="contact-eyebrow-line" />
-            Get in Touch
+            {t.contact.kicker}
           </span>
           <h2>
-            Ready to build?
+            {t.contact.headingLine1}
             <br />
-            <em>Let&apos;s talk.</em>
+            <em>{t.contact.headingLine2}</em>
           </h2>
           <p className="contact-subtitle">
-            Share your vision with us. Whether you&apos;re planning a new home, renovation, or
-            commercial project — we&apos;re here to guide you from concept to completion.
+            {t.contact.subtitle}
           </p>
         </div>
 
@@ -135,22 +137,20 @@ export default function Contact() {
             {isSubmitted ? (
               <div className="contact-success">
                 <CheckCircle2 size={48} />
-                <h3>Message Sent!</h3>
-                <p>
-                  Thank you for reaching out. Our team will get back to you within 24 hours.
-                </p>
+                <h3>{t.contact.form.successTitle}</h3>
+                <p>{t.contact.form.successMessage}</p>
               </div>
             ) : (
               <>
                 <div className="contact-field">
-                  <label htmlFor="contact-name">Full Name *</label>
+                  <label htmlFor="contact-name">{t.contact.form.nameLabel}</label>
                   <input
                     id="contact-name"
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Your full name"
+                    placeholder={t.contact.form.namePlaceholder}
                     required
                     autoComplete="name"
                   />
@@ -158,57 +158,57 @@ export default function Contact() {
 
                 <div className="contact-row">
                   <div className="contact-field">
-                    <label htmlFor="contact-email">Email Address *</label>
+                    <label htmlFor="contact-email">{t.contact.form.emailLabel}</label>
                     <input
                       id="contact-email"
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="your@email.com"
+                      placeholder={t.contact.form.emailPlaceholder}
                       required
                       autoComplete="email"
                     />
                   </div>
                   <div className="contact-field">
-                    <label htmlFor="contact-phone">Phone Number</label>
+                    <label htmlFor="contact-phone">{t.contact.form.phoneLabel}</label>
                     <input
                       id="contact-phone"
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+977 98X-XXXXXXX"
+                      placeholder={t.contact.form.phonePlaceholder}
                       autoComplete="tel"
                     />
                   </div>
                 </div>
 
                 <div className="contact-field">
-                  <label htmlFor="contact-project">Project Type</label>
+                  <label htmlFor="contact-project">{t.contact.form.projectTypeLabel}</label>
                   <select
                     id="contact-project"
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleChange}
                   >
-                    <option value="">Select a project type</option>
-                    <option value="residential">Residential Home</option>
-                    <option value="commercial">Commercial Building</option>
-                    <option value="renovation">Renovation / Remodel</option>
-                    <option value="consultation">Consultation / Naksha</option>
-                    <option value="other">Other</option>
+                    <option value="">{t.contact.form.selectProject}</option>
+                    <option value="residential">{t.contact.form.types.residential}</option>
+                    <option value="commercial">{t.contact.form.types.commercial}</option>
+                    <option value="renovation">{t.contact.form.types.renovation}</option>
+                    <option value="consultation">{t.contact.form.types.consultation}</option>
+                    <option value="other">{t.contact.form.types.other}</option>
                   </select>
                 </div>
 
                 <div className="contact-field">
-                  <label htmlFor="contact-message">Your Message *</label>
+                  <label htmlFor="contact-message">{t.contact.form.messageLabel}</label>
                   <textarea
                     id="contact-message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Tell us about your project vision, timeline, budget range, or any questions you have..."
+                    placeholder={t.contact.form.messagePlaceholder}
                     rows={5}
                     required
                   />
@@ -221,11 +221,11 @@ export default function Contact() {
                 >
                   <span className="btn-text">
                     <span>
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t.contact.form.submittingBtn : t.contact.form.submitBtn}
                       {!isSubmitting && <Send size={15} style={{ marginLeft: 8 }} />}
                     </span>
                     <span>
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t.contact.form.submittingBtn : t.contact.form.submitBtn}
                       {!isSubmitting && <Send size={15} style={{ marginLeft: 8 }} />}
                     </span>
                   </span>
@@ -241,11 +241,11 @@ export default function Contact() {
                 <MapPin size={22} />
               </div>
               <div>
-                <h4>Visit Our Office</h4>
+                <h4>{t.contact.info.officeTitle}</h4>
                 <p>
-                  Dharan Road, Sunsari
+                  {t.contact.info.officeAddress1}
                   <br />
-                  Koshi Province, Nepal
+                  {t.contact.info.officeAddress2}
                 </p>
               </div>
             </div>
@@ -255,11 +255,11 @@ export default function Contact() {
                 <Phone size={22} />
               </div>
               <div>
-                <h4>Call Us</h4>
+                <h4>{t.contact.info.callTitle}</h4>
                 <p>
-                  <a href="tel:+9779800000000">+977 980-0000000</a>
+                  <a href={`tel:${SITE_CONFIG.contact.phoneTel}`}>{SITE_CONFIG.contact.phone}</a>
                   <br />
-                  <span>Mon – Sat, 9AM – 6PM</span>
+                  <span>{t.contact.info.callHours}</span>
                 </p>
               </div>
             </div>
@@ -269,11 +269,11 @@ export default function Contact() {
                 <Mail size={22} />
               </div>
               <div>
-                <h4>Email Us</h4>
+                <h4>{t.contact.info.emailTitle}</h4>
                 <p>
-                  <a href="mailto:hello@bababuilders.com">hello@bababuilders.com</a>
+                  <a href={`mailto:${SITE_CONFIG.contact.email}`}>{SITE_CONFIG.contact.email}</a>
                   <br />
-                  <span>We respond within 24 hours</span>
+                  <span>{t.contact.info.emailResponse}</span>
                 </p>
               </div>
             </div>
@@ -281,8 +281,10 @@ export default function Contact() {
             <div className="contact-info-card contact-map-card">
               <div className="contact-map-placeholder">
                 <MapPin size={28} />
-                <span>26° 39&apos; N / 87° 20&apos; E</span>
-                <small>Sunsari, Nepal</small>
+                <span>{SITE_CONFIG.location.coordinates}</span>
+                <small>
+                  {t.contact.info.officeAddress1}, {SITE_CONFIG.location.country}
+                </small>
               </div>
             </div>
           </div>

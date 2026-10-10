@@ -2,50 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-
-const services = [
-  {
-    number: '01',
-    activeNum: '01',
-    totalNum: '03',
-    title: 'Planning & Approval',
-    subtitle: 'Naksha pass, permits & legal clearance',
-    description:
-      'Every enduring home begins with absolute clarity. We translate your family lifestyle, budget, and land dimensions into precision architectural drawings and municipality-approved blueprints — securing fast municipal pass before breaking ground.',
-    tag: 'Municipality Approved',
-    cta: 'Start Your Plan',
-    image:
-      'https://images.pexels.com/photos/8961133/pexels-photo-8961133.jpeg?auto=compress&cs=tinysrgb&w=1400',
-  },
-  {
-    number: '02',
-    activeNum: '02',
-    totalNum: '03',
-    title: 'Design & Visualization',
-    subtitle: 'Modern aesthetics & spatial harmony',
-    description:
-      'Thoughtful spaces sculpted around sunlight, ventilation, and contemporary living. Photorealistic 3D exterior elevations and interior floor plans let you walk through and refine every space before the first brick is laid.',
-    tag: '3D & Engineering',
-    cta: 'Explore 3D Design',
-    image:
-      'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg?auto=compress&cs=tinysrgb&w=1400',
-  },
-  {
-    number: '03',
-    activeNum: '03',
-    totalNum: '03',
-    title: 'Construction & Advisory',
-    subtitle: 'From foundation to turnkey finishing',
-    description:
-      'Reliable on-site supervision, material estimation, contractor hiring, and complete structural management. From the first concrete pour to interior finishing, our licensed engineers protect your investment till the keys are in your hand.',
-    tag: 'Turnkey Building',
-    cta: 'Build With Us',
-    image:
-      'https://images.pexels.com/photos/11429199/pexels-photo-11429199.jpeg?auto=compress&cs=tinysrgb&w=1400',
-  },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Services() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -302,9 +262,9 @@ export default function Services() {
       <div className="services-forge-stage">
         {/* Ambient Subtle Warm Architectural Glow */}
         <div className="services-forge-bg">
-          {services.map((item, index) => (
+          {t.services.items.map((item, index) => (
             <div
-              key={`bg-${item.number}`}
+              key={`bg-${index}`}
               ref={(el) => {
                 bgRefs.current[index] = el;
               }}
@@ -320,9 +280,9 @@ export default function Services() {
           {/* Left Column: Still Image Frame that crossfades */}
           <div className="services-media-col">
             <div className="services-media-frame">
-              {services.map((item, index) => (
+              {t.services.items.map((item, index) => (
                 <img
-                  key={`img-${item.number}`}
+                  key={`img-${index}`}
                   ref={(el) => {
                     imgRefs.current[index] = el;
                   }}
@@ -337,9 +297,9 @@ export default function Services() {
 
           {/* Right Column: Text Items that slide up from bottom to top */}
           <div className="services-content-col">
-            {services.map((item, index) => (
+            {t.services.items.map((item, index) => (
               <div
-                key={`text-${item.number}`}
+                key={`text-${index}`}
                 ref={(el) => {
                   textRefs.current[index] = el;
                 }}
@@ -372,8 +332,8 @@ export default function Services() {
 
         {/* Mobile Fallback: Earthy cream stacked cards */}
         <div className="services-mobile-list">
-          {services.map((item) => (
-            <div key={`mob-${item.number}`} className="services-mobile-card">
+          {t.services.items.map((item, index) => (
+            <div key={`mob-${index}`} className="services-mobile-card">
               <img
                 src={item.image}
                 alt={item.title}

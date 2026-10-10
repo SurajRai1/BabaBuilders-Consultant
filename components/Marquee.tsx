@@ -1,20 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-
-const items = [
-  'Naksha Pass',
-  'House Design',
-  'Construction',
-  'Consultancy',
-  'Renovation',
-  'Estimation',
-  'Supervision',
-  'Architecture',
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Marquee() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     let ctx: gsap.Context;
@@ -47,7 +38,7 @@ export default function Marquee() {
     return () => ctx?.revert();
   }, []);
 
-  const content = items.map((item, i) => (
+  const content = t.marquee.map((item, i) => (
     <span key={i} className="marquee-item">
       {item}
       <span className="marquee-separator" style={{ marginLeft: 40 }}>✦</span>

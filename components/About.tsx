@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const images = {
-  process: 'https://images.pexels.com/photos/8961133/pexels-photo-8961133.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  process: '/images/project-villa.png',
 };
 
 export default function About() {
@@ -13,14 +14,13 @@ export default function About() {
   const maskRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const init = async () => {
       const { gsap } = await import('gsap');
       const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
-
-      // Section pinned or flush layout without artificial gap
 
       // Text reveal for heading
       if (headingRef.current) {
@@ -101,43 +101,38 @@ export default function About() {
     <section ref={sectionRef} id="about" className="about-section section-pad">
       <div className="container about-grid">
         <div className="about-kicker font-eyebrow">
-          <span className="about-kicker-number">01</span>
+          <span className="about-kicker-number">{t.about.kickerNumber}</span>
           <span className="about-kicker-line" />
-          The BABA standard
+          {t.about.kickerText}
         </div>
 
         <div ref={copyRef} className="about-copy">
           <h2 ref={headingRef}>
-            More than a building.
+            {t.about.headingLine1}
             <br />
-            <span>A considered beginning.</span>
+            <span>{t.about.headingLine2}</span>
           </h2>
-          <p className="lead">
-            Every home starts with a vision. We bring the clarity, craft and care
-            to shape it into something enduring.
-          </p>
-          <p>
-            At BABA Builders &amp; Consultant, we support you from the first
-            conversation and house plan through approvals, construction and
-            completion. Our work is grounded in practical thinking, honest
-            guidance and a deep respect for the details that make a space feel
-            like yours.
-          </p>
-          <a className="text-link" href="#approach" style={{ color: 'var(--deep-green)', borderColor: 'rgba(43,53,48,0.4)' }}>
-            Discover our approach <ChevronRight size={14} />
+          <p className="lead">{t.about.lead}</p>
+          <p>{t.about.body}</p>
+          <a
+            className="text-link"
+            href="#approach"
+            style={{ color: 'var(--deep-green)', borderColor: 'rgba(43,53,48,0.4)' }}
+          >
+            {t.about.approachLink} <ChevronRight size={14} />
           </a>
         </div>
 
         <div ref={imageRef} className="about-image-wrap">
           <img
             src={images.process}
-            alt="Architects reviewing plans at a construction site"
+            alt="BABA Builders architectural process"
           />
           <div ref={maskRef} className="about-image-mask" />
           <div className="about-caption">
-            Built with clarity.
+            {t.about.captionLine1}
             <br />
-            <span>Guided with care.</span>
+            <span>{t.about.captionLine2}</span>
           </div>
         </div>
       </div>

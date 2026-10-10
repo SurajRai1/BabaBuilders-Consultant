@@ -1,13 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { SITE_CONFIG } from '@/lib/constants';
 
 const images = {
-  hero: 'https://images.pexels.com/photos/13752348/pexels-photo-13752348.jpeg?auto=compress&cs=tinysrgb&w=1800',
+  hero: '/images/hero.png',
 };
 
 export default function Hero() {
+  const { t, lang } = useLanguage();
+  const [animated, setAnimated] = useState(false);
+
   const sectionRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -25,7 +30,12 @@ export default function Hero() {
       // Wait for preloader
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        onComplete: () => {
+          setAnimated(true);
+        },
+      });
 
       // Eyebrow line + text
       tl.to('.hero-eyebrow-line', { scaleX: 1, duration: 0.8 }, 0);
@@ -70,13 +80,37 @@ export default function Hero() {
     initAnimations();
   }, []);
 
-  // Split text into characters
-  const splitChars = (text: string) =>
-    text.split('').map((char, i) => (
-      <span key={i} className="hero-char">
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
+  // Split text into words and grapheme characters safely preserving unicode clusters and preventing mid-word breaks
+  const renderTitleLine = (text: string, isEm = false) => {
+    const words = text.split(' ').filter(Boolean);
+
+    return words.map((word, wordIdx) => {
+      let chars: string[];
+      if (typeof Intl !== 'undefined' && (Intl as any).Segmenter) {
+        const segmenter = new (Intl as any).Segmenter(lang, { granularity: 'grapheme' });
+        chars = Array.from(segmenter.segment(word), (s: any) => s.segment);
+      } else {
+        chars = Array.from(word);
+      }
+
+      return (
+        <span key={`${lang}-${wordIdx}`} className="hero-word">
+          {chars.map((char, charIdx) => (
+            <span
+              key={`${lang}-${wordIdx}-${charIdx}`}
+              className="hero-char"
+              style={animated ? { opacity: 1, transform: 'none' } : undefined}
+            >
+              {char}
+            </span>
+          ))}
+          {wordIdx < words.length - 1 && (
+            <span className="hero-word-spacer">&nbsp;</span>
+          )}
+        </span>
+      );
+    });
+  };
 
   return (
     <section ref={sectionRef} className="hero" id="top">
@@ -92,48 +126,60 @@ export default function Hero() {
         <div
           ref={eyebrowRef}
           className="font-eyebrow hero-eyebrow"
-          style={{ opacity: 0, transform: 'translateY(20px)' }}
+          style={{ opacity: animated ? 1 : 0, transform: animated ? 'none' : 'translateY(20px)' }}
         >
-          <span className="hero-eyebrow-line" />
-          Sunsari, Nepal
+          <span className="hero-eyebrow-line" style={animated ? { transform: 'scaleX(1)' } : undefined} />
+          {t.hero.location}
           <span className="hero-eyebrow-dot" />
-          Since 2022
+          {t.hero.since}
         </div>
 
-        <div ref={titleRef} className="hero-title">
+        <div ref={titleRef} className={`hero-title ${lang === 'ne' ? 'hero-title-ne' : ''}`}>
           <h1>
-            {splitChars('Build a place')}
-            <br />
-            <em>{splitChars('to belong.')}</em>
+            <span className="hero-line hero-line-1">
+              {renderTitleLine(t.hero.titleLine1)}
+            </span>
+            <span className="hero-line hero-line-2">
+              <em>{renderTitleLine(t.hero.titleLine2, true)}</em>
+            </span>
           </h1>
         </div>
 
-        <div ref={descRef} className="hero-description">
-          <p>
-            Thoughtful design, trusted guidance and construction with purpose.
-            From your first naksha to the final detail.
-          </p>
+        <div
+          ref={descRef}
+          className="hero-description"
+          style={animated ? { opacity: 1, transform: 'none' } : undefined}
+        >
+          <p>{t.hero.description}</p>
         </div>
 
-        <div ref={actionsRef} className="hero-actions">
+        <div
+          ref={actionsRef}
+          className="hero-actions"
+          style={animated ? { opacity: 1, transform: 'none' } : undefined}
+        >
           <a className="btn btn-gold btn-slide" href="#services">
             <span className="btn-text">
               <span>
-                Explore our services <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
+                {t.hero.exploreServices} <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
               </span>
               <span>
-                Explore our services <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
+                {t.hero.exploreServices} <ArrowUpRight size={15} style={{ marginLeft: 8 }} />
               </span>
             </span>
           </a>
           <a className="text-link" href="#projects">
-            View our work <ChevronRight size={15} />
+            {t.hero.viewWork} <ChevronRight size={15} />
           </a>
         </div>
       </div>
 
-      <div ref={footerRef} className="hero-footer">
-        <span className="hero-coordinate">26° 39&apos; N / 87° 20&apos; E</span>
+      <div
+        ref={footerRef}
+        className="hero-footer"
+        style={animated ? { opacity: 1 } : undefined}
+      >
+        <span className="hero-coordinate">{SITE_CONFIG.location.coordinates}</span>
       </div>
     </section>
   );

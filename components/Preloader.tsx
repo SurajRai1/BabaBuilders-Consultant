@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { BabaLogoMark } from '@/components/BabaLogo';
-
+import { SITE_CONFIG } from '@/lib/constants';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
+  const { lang } = useLanguage();
   const preloaderRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,9 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="preloader-logo-icon">
             <BabaLogoMark className="preloader-mark-svg" />
           </div>
-          <span className="preloader-logo-text">BABA Builders & Consultant</span>
+          <span className="preloader-logo-text">
+            {lang === 'ne' ? 'बाबा बिल्डर्स एण्ड कन्सल्टेन्ट' : SITE_CONFIG.name}
+          </span>
         </div>
         <div ref={lineRef} className="preloader-line" />
         <span ref={counterRef} className="preloader-counter">

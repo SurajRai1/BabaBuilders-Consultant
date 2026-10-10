@@ -1,8 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CustomCursor() {
+  const { t } = useLanguage();
+  const tRef = useRef(t);
+  tRef.current = t;
+
   const cursorRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
@@ -50,7 +55,7 @@ export default function CustomCursor() {
     const addProject = () => {
       cursor.classList.add('is-project');
       label.classList.add('is-visible');
-      label.textContent = 'View';
+      label.textContent = tRef.current.cursor.view;
     };
 
     document.addEventListener('mousemove', onMouseMove);

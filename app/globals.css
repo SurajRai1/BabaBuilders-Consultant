@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&display=swap');
+
 /* ═══════════════════════════════════════════════════════════
    BABA Builders & Consultant — Premium Design System
    Inspired by: Elementis, Forge, Jingjing Han, Deso
@@ -21,6 +23,18 @@
   --ease-smooth: cubic-bezier(0.24, 0.43, 0.15, 0.97);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ── Devanagari / Nepali Script Polish ─────────────────────── */
+html[lang="ne"] {
+  --font-heading: 'Mukta', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Mukta', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html[lang="ne"] em,
+html[lang="ne"] .italic {
+  font-style: normal !important;
+  color: var(--warm-gold);
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -308,6 +322,60 @@ em, .italic { font-style: italic; }
   .site-header.menu-active .hamburger-line {
     background: var(--deep-green);
   }
+}
+
+/* Header Controls & Language Toggle */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  z-index: 125;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  background: rgba(209, 204, 191, 0.08);
+  border: 1px solid rgba(209, 204, 191, 0.18);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+.lang-toggle:hover {
+  border-color: rgba(202, 125, 87, 0.45);
+}
+.site-header.menu-active .lang-toggle {
+  background: rgba(43, 53, 48, 0.08);
+  border-color: rgba(43, 53, 48, 0.18);
+}
+.lang-option {
+  padding: 4px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border-radius: 100px;
+  color: rgba(209, 204, 191, 0.65);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  user-select: none;
+  line-height: 1.2;
+}
+.site-header.menu-active .lang-option {
+  color: rgba(43, 53, 48, 0.55);
+}
+.lang-option.is-active {
+  background: var(--warm-gold);
+  color: #1A2320;
+  box-shadow: 0 2px 8px rgba(202, 125, 87, 0.25);
+}
+.site-header.menu-active .lang-option.is-active {
+  background: var(--warm-gold);
+  color: #1A2320;
 }
 
 /* ── Deso Full-Screen Navigation Menu ────────────────────────── */
@@ -722,16 +790,17 @@ em, .italic { font-style: italic; }
   border-radius: 50%;
 }
 .hero-title {
-  max-width: 850px;
+  max-width: 1080px;
   overflow: hidden;
 }
 .hero-title h1 {
   font-family: var(--font-heading);
-  font-size: clamp(60px, 9.5vw, 140px);
+  font-size: clamp(50px, 7.8vw, 118px);
   font-weight: 400;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   color: var(--white);
+  word-break: keep-all;
 }
 .hero-title h1 em {
   font-family: var(--font-heading);
@@ -739,10 +808,50 @@ em, .italic { font-style: italic; }
   font-weight: 400;
   color: var(--cream);
 }
+.hero-line {
+  display: block;
+}
+.hero-line + .hero-line {
+  margin-top: 4px;
+}
+.hero-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero-word-spacer {
+  display: inline;
+}
 .hero-char {
   display: inline-block;
   opacity: 0;
   transform: translateY(100%);
+}
+
+/* Specific refined sizing, spacing and alignment for Nepali / Devanagari */
+html[lang="ne"] .hero-title,
+.hero-title.hero-title-ne {
+  max-width: min(1200px, 100%);
+}
+html[lang="ne"] .hero-title h1,
+.hero-title.hero-title-ne h1 {
+  font-family: 'Mukta', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(34px, 5vw, 68px);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: 0.01em;
+  word-break: keep-all;
+}
+html[lang="ne"] .hero-title h1 em,
+.hero-title.hero-title-ne h1 em {
+  font-family: 'Mukta', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal !important;
+  font-weight: 600;
+  color: var(--warm-gold);
+  display: inline-block;
+}
+html[lang="ne"] .hero-line + .hero-line,
+.hero-title.hero-title-ne .hero-line + .hero-line {
+  margin-top: 10px;
 }
 .hero-description {
   max-width: 380px;
@@ -1922,6 +2031,11 @@ em, .italic { font-style: italic; }
   .hero { min-height: 100svh; }
   .hero-content { padding-top: 72px; }
   .hero-title h1 { font-size: clamp(44px, 13vw, 80px); }
+  html[lang="ne"] .hero-title h1,
+  .hero-title.hero-title-ne h1 {
+    font-size: clamp(28px, 8.2vw, 42px);
+    line-height: 1.25;
+  }
   .hero-eyebrow { font-size: 9px; gap: 8px; }
   .hero-description { margin-top: 24px; }
   .hero-description p { font-size: 14px; max-width: 320px; }
@@ -1991,6 +2105,11 @@ em, .italic { font-style: italic; }
   .container { width: calc(100% - 24px); }
   .section-pad { padding: 60px 0; }
   .hero-title h1 { font-size: clamp(36px, 12vw, 60px); }
+  html[lang="ne"] .hero-title h1,
+  .hero-title.hero-title-ne h1 {
+    font-size: clamp(24px, 7.8vw, 32px);
+    line-height: 1.25;
+  }
   .hero-content { padding-top: 64px; }
   .contact-form { padding: 24px 16px; }
   .contact-header h2 { font-size: clamp(30px, 9vw, 44px); }

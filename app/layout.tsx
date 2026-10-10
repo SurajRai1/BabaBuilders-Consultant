@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
+import { SITE_CONFIG } from '@/lib/constants';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,15 +19,14 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bababuilders.com'),
-  title: 'BABA Builders & Consultant | Sunsari, Nepal',
-  description:
-    'Thoughtful design, trusted guidance and construction with purpose. BABA Builders & Consultant helps shape your vision from naksha to completion.',
+  title: `${SITE_CONFIG.name} | ${SITE_CONFIG.location.city}, ${SITE_CONFIG.location.country}`,
+  description: SITE_CONFIG.description,
   openGraph: {
-    title: 'BABA Builders & Consultant',
-    description: 'Building a place to belong.',
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.tagline,
     images: [
       {
-        url: 'https://images.pexels.com/photos/13752348/pexels-photo-13752348.jpeg?auto=compress&cs=tinysrgb&w=1800',
+        url: '/images/hero.png',
       },
     ],
   },
