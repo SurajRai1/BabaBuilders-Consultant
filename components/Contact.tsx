@@ -279,12 +279,21 @@ export default function Contact() {
             </div>
 
             <div className="contact-info-card contact-map-card">
-              <div className="contact-map-placeholder">
-                <MapPin size={28} />
+              <div className="contact-map-embed">
+                <iframe
+                  title="BABA Builders Location – Dharan Road, Sunsari, Nepal"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28580.5!2d87.2833!3d26.65!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef6c0b0d0e7b75%3A0x0!2sDharan%20Road%2C%20Sunsari!5e0!3m2!1sen!2snp!4v1700000000000"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <div className="contact-map-overlay">
+                <MapPin size={16} />
                 <span>{SITE_CONFIG.location.coordinates}</span>
-                <small>
-                  {t.contact.info.officeAddress1}, {SITE_CONFIG.location.country}
-                </small>
               </div>
             </div>
           </div>

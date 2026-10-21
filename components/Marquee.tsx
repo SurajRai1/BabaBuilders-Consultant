@@ -8,10 +8,16 @@ export default function Marquee() {
   const { t } = useLanguage();
 
   useEffect(() => {
-    let ctx: gsap.Context;
+    let ctx: gsap.Context | undefined;
+    let cancelled = false;
+
     const init = async () => {
       const { gsap } = await import('gsap');
       const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger');
+
+      // Guard: if component unmounted while we were awaiting imports, bail out
+      if (cancelled) return;
+
       gsap.registerPlugin(ScrollTrigger);
 
       ctx = gsap.context(() => {
@@ -35,7 +41,11 @@ export default function Marquee() {
     };
 
     init();
-    return () => ctx?.revert();
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   }, []);
 
   const content = t.marquee.map((item, i) => (

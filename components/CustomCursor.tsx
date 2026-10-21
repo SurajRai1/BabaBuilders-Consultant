@@ -12,18 +12,34 @@ export default function CustomCursor() {
   const labelRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
+  const isMoving = useRef(false);
 
   useEffect(() => {
     const cursor = cursorRef.current;
     const label = labelRef.current;
     if (!cursor || !label) return;
 
-    // Only on desktop
-    if (window.matchMedia('(max-width: 768px)').matches) return;
+    // Skip on mobile/touch devices and respect motion preferences
+    if (
+      window.matchMedia('(max-width: 768px)').matches ||
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
 
+    const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
+
+    // Wake up the animation loop when mouse moves
     const onMouseMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
       cursor.classList.add('is-visible');
+
+      // Start the animation loop only if it's sleeping
+      if (!isMoving.current) {
+        isMoving.current = true;
+        rafId = requestAnimationFrame(animate);
+      }
     };
 
     const onMouseLeave = () => {
@@ -31,60 +47,62 @@ export default function CustomCursor() {
       label.classList.remove('is-visible');
     };
 
-    // Smooth follow with RAF
+    // GPU-accelerated smooth follow with idle sleep
     let rafId: number;
-    const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
     const animate = () => {
       pos.current.x = lerp(pos.current.x, target.current.x, 0.12);
       pos.current.y = lerp(pos.current.y, target.current.y, 0.12);
-      cursor.style.left = `${pos.current.x}px`;
-      cursor.style.top = `${pos.current.y}px`;
-      label.style.left = `${pos.current.x}px`;
-      label.style.top = `${pos.current.y}px`;
+
+      // Use translate3d for GPU compositing (no layout reflow)
+      const tx = pos.current.x;
+      const ty = pos.current.y;
+      cursor.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%)`;
+      label.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%)`;
+
+      // Sleep when the cursor has settled (within 0.1px of target)
+      const dx = Math.abs(pos.current.x - target.current.x);
+      const dy = Math.abs(pos.current.y - target.current.y);
+      if (dx < 0.1 && dy < 0.1) {
+        isMoving.current = false;
+        return; // Stop the loop — will restart on next mousemove
+      }
+
       rafId = requestAnimationFrame(animate);
     };
-    rafId = requestAnimationFrame(animate);
 
-    // Hover states
-    const addHover = () => cursor.classList.add('is-hover');
-    const removeHover = () => {
-      cursor.classList.remove('is-hover');
-      cursor.classList.remove('is-project');
-      label.classList.remove('is-visible');
+    // Event delegation: single listener handles all hover states dynamically
+    const onMouseOver = (e: MouseEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.closest('.project-card')) {
+        cursor.classList.add('is-project');
+        label.classList.add('is-visible');
+        label.textContent = tRef.current.cursor.view;
+      } else if (el.closest('a, button, .btn, .nav-link-item')) {
+        cursor.classList.add('is-hover');
+      }
     };
-    const addProject = () => {
-      cursor.classList.add('is-project');
-      label.classList.add('is-visible');
-      label.textContent = tRef.current.cursor.view;
+
+    const onMouseOut = (e: MouseEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.closest('.project-card') || el.closest('a, button, .btn, .nav-link-item')) {
+        cursor.classList.remove('is-hover');
+        cursor.classList.remove('is-project');
+        label.classList.remove('is-visible');
+      }
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseleave', onMouseLeave);
-
-    const interactives = document.querySelectorAll('a, button, .btn, .nav-link-item');
-    interactives.forEach((el) => {
-      el.addEventListener('mouseenter', addHover);
-      el.addEventListener('mouseleave', removeHover);
-    });
-
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach((el) => {
-      el.addEventListener('mouseenter', addProject);
-      el.addEventListener('mouseleave', removeHover);
-    });
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
 
     return () => {
       cancelAnimationFrame(rafId);
+      isMoving.current = false;
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseleave', onMouseLeave);
-      interactives.forEach((el) => {
-        el.removeEventListener('mouseenter', addHover);
-        el.removeEventListener('mouseleave', removeHover);
-      });
-      projectCards.forEach((el) => {
-        el.removeEventListener('mouseenter', addProject);
-        el.removeEventListener('mouseleave', removeHover);
-      });
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
     };
   }, []);
 
